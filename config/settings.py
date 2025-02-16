@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from environs import Env
+import dj_database_url
 
 env = Env()
 env.read_env()
@@ -87,9 +88,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL")
+    "default": dj_database_url.parse(
+        env.str("DATABASE_URL", default="sqlite:///db.sqlite3"),
+        conn_max_age=600
+    )
 }
 
+# SQLite configuration (for local development)
+if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
+    DATABASES["default"]["NAME"] = str(BASE_DIR.joinpath("db.sqlite3"))
+
+# PostgreSQL configuration (for production)
 
 # Password validation
 # https:// docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -139,12 +148,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
 # Email Backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env.str('EMAIL_HOST', '')
-EMAIL_PORT = env.int('EMAIL_PORT', 587)
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', True)
-EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = env.str('EMAIL_HOST', '')
+# EMAIL_PORT = env.int('EMAIL_PORT', 587)
+# EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', True)
+# EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
+# EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
 
 # CKEditor config
 CKEDITOR_CONFIGS = {

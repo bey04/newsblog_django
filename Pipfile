@@ -13,6 +13,8 @@ python-dotenv = "*"
 environs = "*"
 gunicorn = "*"
 whitenoise = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
