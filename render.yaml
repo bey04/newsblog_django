@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: newsblog
+    runtime: python
+    buildCommand: pip install pipenv && pipenv install --dev
+    startCommand: pipenv run gunicorn config.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        value: ${SECRET_KEY}
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        value: ${DATABASE_URL}
+      - key: ALLOWED_HOSTS
+        value: ${RENDER_EXTERNAL_HOSTNAME}
+    staticFiles:
+      - path: /static
+        destination: staticfiles

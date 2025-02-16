@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold">Articles</h1>
+        {% if user.is_superuser %}
+        <a href="{% url 'article_create' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Create New Article
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for article in object_list %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ article.title }}</h5>
+                    <p class="card-text text-muted">{{ article.summary|truncatechars:100 }}</p>
+                    <div class="mb-3">
+                        {% for tag in article.tags.all %}
+                        <span class="badge bg-primary me-1">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ article.get_absolute_url }}" class="btn btn-primary stretched-link">Read More</a>
+                </div>
+                <div class="card-footer bg-transparent border-top-0">
+                    <small class="text-muted">
+                        Published on {{ article.published_date|date:"M d, Y" }} by {{ article.author.username }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
