@@ -11,8 +11,8 @@ django-ckeditor = "*"
 django-taggit = "*"
 python-dotenv = "*"
 environs = "*"
-whitenoise = "*"
 gunicorn = "*"
+whitenoise = "*"
 
 [dev-packages]
 
