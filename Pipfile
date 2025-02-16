@@ -11,10 +11,10 @@ django-ckeditor = "*"
 django-taggit = "*"
 python-dotenv = "*"
 environs = "*"
-gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
+gunicorn = "*"
 
 [dev-packages]
 
